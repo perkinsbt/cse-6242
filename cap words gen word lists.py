@@ -48,12 +48,14 @@ def get_word_lst(ids):
     phrase_lst = []
     #iterate over the input list of legislator ids
     for id in ids:
-        req_param['entity_value'] = id
-        phrase_req = requests.get(url, params=req_param)
-        reply_json = phrase_req.json()
+        for i in range(1,10):
+            req_param['page'] = i
+            req_param['entity_value'] = id
+            phrase_req = requests.get(url, params=req_param)
+            reply_json = phrase_req.json()
         #iterate over the output json and write the first 100 replies to a list
-        for line in reply_json:
-            phrase_lst.append(line['ngram'])
+            for line in reply_json:
+                phrase_lst.append(line['ngram'])
     return phrase_lst
 rep_tot_words = get_word_lst(rep_bio_ids)
 dem_tot_words = get_word_lst(dem_bio_ids)
