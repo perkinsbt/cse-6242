@@ -7,7 +7,7 @@ and Democrats.  You need a valid API key and to save the API key in the file
 import requests
 import math
 from collections import Counter
-import numpy as np
+import json
 #reads the API key
 with open('sunlight API.txt','r') as api_file:
     api_key = api_file.read()
@@ -48,7 +48,7 @@ def get_word_lst(ids):
     phrase_lst = []
     #iterate over the input list of legislator ids
     for id in ids:
-        for i in range(1,10):
+        for i in range(1,6):
             req_param['page'] = i
             req_param['entity_value'] = id
             phrase_req = requests.get(url, params=req_param)
@@ -59,7 +59,14 @@ def get_word_lst(ids):
     return phrase_lst
 rep_tot_words = get_word_lst(rep_bio_ids)
 dem_tot_words = get_word_lst(dem_bio_ids)
-rep_words = list(set(rep_tot_words)-set(dem_tot_words))
-dem_words = list(set(dem_tot_words)-set(rep_tot_words))
-top_rep_words = Counter(rep_words).most_common()
-top_dem_words = Counter(dem_words).most_common()
+#rep_words = list(set(rep_tot_words)-set(dem_tot_words))
+#dem_words = list(set(dem_tot_words)-set(rep_tot_words))
+rep_words = [x for x in rep_tot_words if x not in dem_tot_words]
+dem_words = [x for x in dem_tot_words if x not in rep_tot_words]
+rep_word_count = Counter(rep_words).most_common(500)
+dem_word_count = Counter(dem_words).most_common(500)
+with open('rep_word_count4.json','w') as rep_file:
+    json.dump(rep_word_count,rep_file)
+with open('dem_word_count4.json','w') as dem_file:
+    json.dump(dem_word_count,dem_file)
+        
