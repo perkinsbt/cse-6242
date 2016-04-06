@@ -7,6 +7,7 @@ and Democrats.  You need a valid API key and to save the API key in the file
 import requests
 import math
 from collections import Counter
+import numpy as np
 #reads the API key
 with open('sunlight API.txt','r') as api_file:
     api_key = api_file.read()
@@ -56,5 +57,7 @@ def get_word_lst(ids):
     return phrase_lst
 rep_tot_words = get_word_lst(rep_bio_ids)
 dem_tot_words = get_word_lst(dem_bio_ids)
-top_rep_words = Counter(rep_tot_words).most_common()
-top_dem_words = Counter(dem_tot_words).most_common()
+rep_words = list(set(rep_tot_words)-set(dem_tot_words))
+dem_words = list(set(dem_tot_words)-set(rep_tot_words))
+top_rep_words = Counter(rep_words).most_common()
+top_dem_words = Counter(dem_words).most_common()
