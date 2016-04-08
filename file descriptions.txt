@@ -1,5 +1,0 @@
-dem/rep word count - 900 words per legislator, tfidf descending, top 100 terms
-dem/rep word count1 - 900 words per legislator, count descending, top 100 terms
-dem/rep word count2 - 100 words per legislator, count descending, top 100 terms
-dem/rep word count3 - 100 words per legislator, tfidf descending, top 100 terms
-dem/rep word count4 - 500 words per legislator, tfidf descending, top 500 terms
