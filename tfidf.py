@@ -13,8 +13,10 @@ tfidf = TfidfVectorizer(input='filename',stop_words='english',
 npr_dir = 'npr articles/npr articles/'
 npr = os.listdir(npr_dir)
 files = []
-for file in npr:
-    files.append(npr_dir + file)
+for txt in npr:
+    files.append(npr_dir + txt)
+npr = [y.lstrip('npr_') for y in npr]
+npr = [y.rstrip('.txt') for y in npr]
 tfs = tfidf.fit_transform(files)
 feature_names = tfidf.get_feature_names()
 dense = tfs.todense()
@@ -25,7 +27,7 @@ for i in range(len(dense.tolist())):
     zip(range(0, len(article)),article) if pair[1]>0]
     sorted_phrase_scores = sorted(phrase_scores, key=lambda x: x[1],
                                   reverse=True)
-    top_phrases = [(feature_names[word_id], score) for (word_id,score) in 
+    top_phrases = [feature_names[word_id] for (word_id,score) in 
     sorted_phrase_scores][:10]
     phrase_dict[npr[i]] = top_phrases
 with open('top_article_phrases.json','w') as outfile:
